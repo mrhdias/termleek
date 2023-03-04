@@ -1,0 +1,6 @@
+github.com/gotk3/gotk3 v0.6.1 h1:GJ400a0ecEEWrzjBvzBzH+pB/esEMIGdB9zPSmBdoeo=
+github.com/gotk3/gotk3 v0.6.1/go.mod h1:/hqFpkNa9T3JgNAE2fLvCdov7c5bw//FHNZrZ3Uv9/Q=
+github.com/mrhdias/vte v0.0.0-20230304220251-0bd8f9c8036d h1:Bh0EWq6EGTNU6zXQGcVnmzxoOQEsR6At8AY+DUsKjN0=
+github.com/mrhdias/vte v0.0.0-20230304220251-0bd8f9c8036d/go.mod h1:TXP+/PzjitKGRHqUJabX+mk9WJqlBd998ckC56NzgBI=
+gopkg.in/ini.v1 v1.67.0 h1:Dgnx+6+nfE+IfzjUEISNeydPJh9AXNNsWbGP9KzCsOA=
+gopkg.in/ini.v1 v1.67.0/go.mod h1:pNLf8WUiyNEtQjuu5G5vTm06TEv9tsIgeAvK8hOrP4k=
