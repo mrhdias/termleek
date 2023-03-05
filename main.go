@@ -9,6 +9,7 @@
 // https://cpp.hotexamples.com/pt/examples/-/-/pango_font_description_free/cpp-pango_font_description_free-function-examples.html
 // https://github.com/nlamirault/mert/blob/master/vte3/vte3.go
 // https://github.com/orhun/kermit
+// https://docs.gtk.org/Pango/type_func.FontDescription.from_string.html
 //
 
 package main
@@ -30,8 +31,9 @@ import (
 )
 
 const (
-	minWidth  = 340
-	minHeight = 185
+	minWidth    = 340
+	minHeight   = 185
+	defaultFont = "monospace 10"
 )
 
 type App struct {
@@ -166,7 +168,7 @@ func (app App) getTermWindow() *gtk.Window {
 	win.SetTitle("TermLeek")
 	win.SetDefaultSize(app.Config.Terminal.MinWidth, app.Config.Terminal.MinHeight)
 	win.SetSizeRequest(app.Config.Terminal.MinWidth, app.Config.Terminal.MinHeight)
-	win.SetPosition(gtk.WIN_POS_CENTER)
+	win.SetPosition(gtk.WIN_POS_NONE)
 	win.SetResizable(true)
 	if app.Config.Terminal.Icon != "" {
 		win.SetIconFromFile(app.Config.Terminal.Icon)
@@ -180,7 +182,8 @@ func (app *App) setupWindow() {
 	app.Window = app.getTermWindow()
 
 	// Get Image from file
-	sourcePixbuf := app.getBackground(app.Config.Terminal.MinWidth, app.Config.Terminal.MinHeight)
+	sourcePixbuf := app.getBackground(app.Config.Terminal.MinWidth,
+		app.Config.Terminal.MinHeight)
 
 	// Get New Terminal
 	terminal := app.getTerminal()
@@ -206,10 +209,12 @@ func (app *App) setupWindow() {
 		layout.Put(app.BackgroundImage, 0, 0)
 
 		// app.BackgroundImage.SetOpacity(0.5)
-		app.BackgroundImage.SetSizeRequest(app.Config.Terminal.MinWidth, app.Config.Terminal.MinHeight)
+		app.BackgroundImage.SetSizeRequest(app.Config.Terminal.MinWidth,
+			app.Config.Terminal.MinHeight)
 	}
 
-	scrolledWindow.SetSizeRequest(app.Config.Terminal.MinWidth, app.Config.Terminal.MinHeight)
+	scrolledWindow.SetSizeRequest(app.Config.Terminal.MinWidth,
+		app.Config.Terminal.MinHeight)
 	layout.Put(scrolledWindow, 0, 0)
 
 	if sourcePixbuf != nil {
@@ -234,7 +239,7 @@ func NewApp() App {
 func main() {
 
 	var configDirPath string
-	flag.StringVar(&configDirPath, "d", "", "Path to the configuration file directory")
+	flag.StringVar(&configDirPath, "c", "", "Path to the configuration file directory")
 	flag.Parse()
 
 	if configDirPath == "" {
@@ -266,7 +271,7 @@ func main() {
 
 	app.Config.Background.PreserveAspectRatio = cfg.Section("Background").Key("preserve_aspect_ratio").MustBool()
 
-	app.Config.Terminal.Font = cfg.Section("Terminal").Key("font").MustString("monospace 10")
+	app.Config.Terminal.Font = cfg.Section("Terminal").Key("font").MustString(defaultFont)
 
 	app.Config.Terminal.MinWidth = func(w int) int {
 		if w < minWidth {
