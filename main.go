@@ -15,9 +15,11 @@ package main
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/gotk3/gotk3/gdk"
 	"github.com/gotk3/gotk3/gtk"
@@ -231,7 +233,22 @@ func NewApp() App {
 
 func main() {
 
-	cfg, err := ini.Load("termleek.ini")
+	var configDirPath string
+	flag.StringVar(&configDirPath, "d", "", "Path to the configuration file directory")
+	flag.Parse()
+
+	if configDirPath == "" {
+		home := os.Getenv("HOME")
+		configDirPath = filepath.Join(home, ".config", "termleek")
+		if _, err := os.Stat(configDirPath); os.IsNotExist(err) {
+			if err := os.Mkdir(configDirPath, os.ModePerm); err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+		}
+	}
+
+	cfg, err := ini.Load(filepath.Join(configDirPath, "termleek.ini"))
 	if err != nil {
 		fmt.Printf("Failed to read file: %v", err)
 		os.Exit(1)
