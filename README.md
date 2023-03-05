@@ -1,2 +1,2 @@
 # TermLeek
-Another alien simple terminal emulator written in Go
+Another minimal terminal emulator written in Go
